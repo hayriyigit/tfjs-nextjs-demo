@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-
-import { Button } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { Conv, Dropout, Flatten, Pooling, Compile, Dense } from "../components";
 
 import io from "socket.io-client";
 
@@ -37,8 +35,24 @@ export default () => {
   }, [socket]);
 
   return (
-    <div className="d-flex flex-column">
-      <Button onClick={() => socket.emit("addMaxPooling")} variant="danger">
+    <div className="container">
+      <h1 className="text-center m-4">Tensorflow.js Demo</h1>
+
+      <div className="row m-5" style={{ gap: "10px" }}>
+        <Conv />
+        <Dropout />
+      </div>
+      <div className="row m-5" style={{ gap: "10px" }}>
+        <Pooling />
+        <Flatten />
+      </div>
+      <div className="row m-5">
+        <Dense />
+      </div>
+      <div className="row m-5">
+        <Compile />
+      </div>
+      {/* <Button onClick={() => socket.emit("addMaxPooling")} variant="danger">
         Max Pooling
       </Button>
       <Button onClick={() => socket.emit("addConv")} variant="danger">
@@ -52,7 +66,7 @@ export default () => {
       </Button>
       <Button onClick={() => socket.emit("compileModel")} variant="danger">
         Compile
-      </Button>
+      </Button> */}
     </div>
   );
 };
