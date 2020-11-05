@@ -41,3 +41,5 @@ io.on("connection", (socket) => {
     socket.emit("model", modelSummary);
   });
 });
+
+io.on("connect", () => console.log("Connected"));
