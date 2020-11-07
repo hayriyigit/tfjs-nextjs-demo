@@ -11,7 +11,7 @@ export default (props) => {
   };
 
   return (
-    <div className="col border p-3 border-success rounded-lg bg-light">
+    <div className="col border p-3 border-dark rounded-lg bg-light">
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
           <legend>Dropout</legend>
@@ -38,7 +38,7 @@ export default (props) => {
             </fieldset>
           </div>
 
-          <button type="submit" class="btn btn-success btn-block">
+          <button type="submit" class="btn btn-secondary btn-block">
             Add Dropout
           </button>
         </fieldset>

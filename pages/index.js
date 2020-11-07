@@ -1,7 +1,15 @@
 import { useEffect } from "react";
-import { useSocket } from "../Hooks";
+import { useSocket } from "../hooks";
 
-import { Conv, Dropout, Flatten, Pooling, Compile, Dense } from "../components";
+import {
+  Conv,
+  Dropout,
+  Flatten,
+  Pooling,
+  Compile,
+  Dense,
+  Train,
+} from "../components";
 
 export default () => {
   const socket = useSocket("http://localhost:8001", {
@@ -34,6 +42,9 @@ export default () => {
       </div>
       <div className="row m-5">
         <Compile socket={socket} />
+      </div>
+      <div className="row m-5">
+        <Train socket={socket} />
       </div>
     </div>
   );
