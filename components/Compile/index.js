@@ -25,7 +25,9 @@ const losses = [
 export default (props) => {
   const { socket } = props;
   const { register, handleSubmit, watch, errors } = useForm();
-  const onSubmit = (data) => alert(JSON.stringify(data));
+  const onSubmit = (data) => {
+    socket.emit("compileModel", data);
+  };
 
   return (
     <div className="col border p-3 border-dark rounded-lg bg-light">

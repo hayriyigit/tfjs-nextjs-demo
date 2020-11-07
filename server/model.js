@@ -13,48 +13,31 @@ class Model {
         kernelInitializer: "varianceScaling",
       })
     );
+    this.model.summary();
   }
 
-  addConv() {
-    this.model.add(
-      tf.layers.conv2d({
-        kernelSize: 5,
-        filters: 16,
-        strides: 1,
-        activation: "relu",
-        kernelInitializer: "varianceScaling",
-      })
-    );
+  addConv(data) {
+    this.model.add(tf.layers.conv2d(data));
   }
 
-  addMaxPooling() {
-    this.model.add(
-      tf.layers.maxPooling2d({
-        poolSize: [2, 2],
-        strides: [2, 2],
-      })
-    );
+  addMaxPooling(data) {
+    this.model.add(tf.layers.maxPooling2d(data));
   }
 
-  addFlatten() {
-    this.model.add(tf.layers.flatten());
+  addFlatten(data) {
+    this.model.add(tf.layers.flatten(data));
   }
 
-  addDense() {
-    this.model.add(
-      tf.layers.dense({
-        units: 10,
-        kernelInitializer: "varianceScaling",
-        activation: "softmax",
-      })
-    );
+  addDense(data) {
+    this.model.add(tf.layers.dense(data));
   }
 
-  compileModel() {
-    this.model.compile({
-      optimizer: tf.train.adam(),
-      loss: "categoricalCrossentropy",
-    });
+  addDropout(data) {
+    this.model.add(tf.layers.dropout(data));
+  }
+
+  compileModel(data) {
+    this.model.compile(data);
   }
 
   getModel() {

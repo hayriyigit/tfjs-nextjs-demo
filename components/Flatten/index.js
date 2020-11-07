@@ -1,5 +1,4 @@
 import React from "react";
-import _ from "lodash/fp";
 import { useForm } from "react-hook-form";
 
 const dataFormat = ["channelsFirst", "channelsLast"];
@@ -7,7 +6,9 @@ const dataFormat = ["channelsFirst", "channelsLast"];
 export default (props) => {
   const { socket } = props;
   const { register, handleSubmit, watch, errors } = useForm();
-  const onSubmit = (data) => alert(JSON.stringify(data));
+  const onSubmit = (data) => {
+    socket.emit("addFlatten", data);
+  };
 
   return (
     <div className="col border p-3 border-danger rounded-lg bg-light">

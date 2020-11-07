@@ -1,5 +1,4 @@
 import React from "react";
-import _ from "lodash/fp";
 import { useForm } from "react-hook-form";
 
 const padding = ["valid", "same", "causal"];
@@ -8,7 +7,12 @@ const dataFormat = ["channelsFirst", "channelsLast"];
 export default (props) => {
   const { socket } = props;
   const { register, handleSubmit, watch, errors } = useForm();
-  const onSubmit = (data) => alert(JSON.stringify(data));
+  const onSubmit = (data) => {
+    data.poolSize = parseInt(data.poolSize);
+    data.strides = parseInt(data.strides);
+
+    socket.emit("addMaxPooling", data);
+  };
 
   return (
     <div className="col border p-3 border-warning rounded-lg bg-light">
@@ -44,27 +48,6 @@ export default (props) => {
               </label>
               <input
                 class={`form-control ${errors.strides && "is-invalid"}`}
-                id="strides"
-                name="strides"
-                type="number"
-                placeholder="Kernel Size"
-                ref={register({ required: true, min: 1 })}
-              />
-              {errors.strides && (
-                <div class="invalid-feedback">
-                  Please select stride more than 0
-                </div>
-              )}
-            </fieldset>
-          </div>
-
-          <div class="form-group">
-            <fieldset>
-              <label class="control-label" for="strides">
-                Strides
-              </label>
-              <input
-                class={`form-control ${errors.filters && "is-invalid"}`}
                 id="strides"
                 name="strides"
                 type="number"

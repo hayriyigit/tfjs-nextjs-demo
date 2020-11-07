@@ -14,28 +14,25 @@ const activation = [
   "softsign",
   "tanh",
 ];
+
 const kernelInitializer = [
-  "constant",
   "glorotNormal",
   "glorotUniform",
   "heNormal",
   "heUniform",
-  "identity",
   "leCunNormal",
   "leCunUniform",
   "ones",
-  "orthogonal",
-  "randomNormal",
-  "randomUniform",
-  "truncatedNormal",
-  "varianceScaling",
   "zeros",
 ];
 
 export default (props) => {
   const { socket } = props;
   const { register, handleSubmit, watch, errors } = useForm();
-  const onSubmit = (data) => alert(JSON.stringify(data));
+  const onSubmit = (data) => {
+    data.units = parseInt(data.units);
+    socket.emit("addDense", data);
+  };
 
   return (
     <div className="col border p-3 border-info rounded-lg bg-light">
@@ -48,7 +45,7 @@ export default (props) => {
                 Units
               </label>
               <input
-                class={`form-control ${errors.filters && "is-invalid"}`}
+                class={`form-control ${errors.units && "is-invalid"}`}
                 id="units"
                 name="units"
                 type="number"
@@ -56,7 +53,7 @@ export default (props) => {
                 ref={register({ required: true, min: 1 })}
               />
 
-              {errors.filters && (
+              {errors.units && (
                 <div class="invalid-feedback">
                   Please select filter size more than 0
                 </div>

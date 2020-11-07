@@ -5,7 +5,10 @@ import { useForm } from "react-hook-form";
 export default (props) => {
   const { socket } = props;
   const { register, handleSubmit, watch, errors } = useForm();
-  const onSubmit = (data) => alert(JSON.stringify(data));
+  const onSubmit = (data) => {
+    data.rate = parseFloat(data.rate);
+    socket.emit("addDropout", data);
+  };
 
   return (
     <div className="col border p-3 border-success rounded-lg bg-light">

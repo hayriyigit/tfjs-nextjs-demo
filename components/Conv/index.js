@@ -1,4 +1,3 @@
-import { prop } from "lodash/fp";
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -17,20 +16,13 @@ const activation = [
   "tanh",
 ];
 const kernelInitializer = [
-  "constant",
   "glorotNormal",
   "glorotUniform",
   "heNormal",
   "heUniform",
-  "identity",
   "leCunNormal",
   "leCunUniform",
   "ones",
-  "orthogonal",
-  "randomNormal",
-  "randomUniform",
-  "truncatedNormal",
-  "varianceScaling",
   "zeros",
 ];
 
@@ -38,7 +30,11 @@ export default (props) => {
   const { socket } = props;
   const { register, handleSubmit, watch, errors } = useForm();
   const onSubmit = (data) => {
-    alert(JSON.stringify(data));
+    data.kernelSize = parseInt(data.kernelSize);
+    data.filters = parseInt(data.filters);
+    data.strides = parseInt(data.strides);
+
+    socket.emit("addConv", data);
   };
 
   return (
@@ -57,7 +53,7 @@ export default (props) => {
                 name="filters"
                 type="number"
                 placeholder="Filter Size"
-                ref={register({ required: true, min: 1, max: 99 })}
+                ref={register({ required: true, min: 1 })}
               />
 
               {errors.filters && (
@@ -74,7 +70,7 @@ export default (props) => {
                 Kernel Size
               </label>
               <input
-                class={`form-control ${errors.filters && "is-invalid"}`}
+                class={`form-control ${errors.kernelSize && "is-invalid"}`}
                 id="kernelSize"
                 name="kernelSize"
                 type="number"
@@ -95,7 +91,7 @@ export default (props) => {
                 Strides
               </label>
               <input
-                class={`form-control ${errors.filters && "is-invalid"}`}
+                class={`form-control ${errors.strides && "is-invalid"}`}
                 id="strides"
                 name="strides"
                 type="number"
@@ -152,54 +148,6 @@ export default (props) => {
             </select>
           </div>
 
-          {/* <div class="form-group">
-            <label for="exampleSelect1">Example select</label>
-            <select class="form-control" id="exampleSelect1">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-          </div>
-
-          <fieldset class="form-group">
-            <legend>Checkboxes</legend>
-            <div class="form-check">
-              <label class="form-check-label">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  value=""
-                  checked=""
-                />
-                Option one is this and that—be sure to include why it's great
-              </label>
-            </div>
-            <div class="form-check disabled">
-              <label class="form-check-label">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  value=""
-                  disabled=""
-                />
-                Option two is disabled
-              </label>
-            </div>
-          </fieldset>
-          <fieldset class="form-group">
-            <legend>Sliders</legend>
-            <label for="customRange1">Example range</label>
-            <input
-              type="range"
-              class="custom-range"
-              id="customRange1"
-              data-slider-min="0"
-              data-slider-max="20"
-              data-slider-step="1"
-            />
-          </fieldset> */}
           <button type="submit" class="btn btn-primary btn-block">
             Add Conv2D
           </button>
