@@ -20,6 +20,7 @@ const losses = [
   "meanSquaredError",
   "sigmoidCrossEntropy",
   "softmaxCrossEntropy",
+  "categoricalCrossentropy",
 ];
 
 export default (props) => {

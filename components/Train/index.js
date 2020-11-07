@@ -2,17 +2,20 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 export default (props) => {
-  const { socket } = props;
+  const { socket, active } = props;
   const { register, handleSubmit, watch, errors } = useForm();
   const onSubmit = (data) => {
-    data.poolSize = parseInt(data.poolSize);
-    data.strides = parseInt(data.strides);
-
-    socket.emit("addMaxPooling", data);
+    data.batchSize = parseInt(data.batchSize);
+    data.epochs = parseInt(data.epochs);
+    data.shuffle = data.shuffle == "true" ? true : false;
+    socket.emit("trainModel", data);
   };
 
   return (
-    <div className="col border p-3 border-success rounded-lg bg-light">
+    <div
+      className="col border p-3 border-success rounded-lg bg-light"
+      style={{ display: active ? "block" : "none" }}
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
           <legend>Train Model</legend>
@@ -67,11 +70,11 @@ export default (props) => {
               name="shuffle"
               ref={register}
             >
-              <option>{true}</option>
-              <option>{false}</option>
+              <option>true</option>
+              <option>false</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-lg btn-success btn-block">
+          <button type="submit" class="btn btn-lg btn-success btn-block ">
             Train Model
           </button>
         </fieldset>

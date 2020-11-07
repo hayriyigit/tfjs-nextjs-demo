@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSocket } from "../hooks";
 
 import {
@@ -17,10 +17,22 @@ export default () => {
     reconnectionDelayMax: 300,
   });
 
+  const [compailStatus, setCompailStatus] = useState({
+    status: false,
+    message: "Model hasn't compailed yet",
+  });
+
+  const [trainLogs, setTrainLogs] = useState([]);
+
   useEffect(() => {
     if (socket) {
-      socket.on("model", (summary) => {
-        console.log(summary);
+      socket.on("compailed", ({ status, message }) => {
+        setCompailStatus({ status, message });
+      });
+
+      socket.on("onEpochEnd", (data) => {
+        console.log(trainLogs);
+        setTrainLogs([...trainLogs, data]);
       });
     }
   }, [socket]);
@@ -44,7 +56,25 @@ export default () => {
         <Compile socket={socket} />
       </div>
       <div className="row m-5">
-        <Train socket={socket} />
+        <Train socket={socket} active={compailStatus.status ? true : false} />
+      </div>
+      <div className="row m-5">
+        <p>
+          {compailStatus.status}
+          {compailStatus.message}
+        </p>
+      </div>
+      <div className="row m-5">
+        <p>
+          {trainLogs.length > 0
+            ? trainLogs.map((item) => (
+                <p>
+                  <span>{item.epochs}</span>
+                  <span>{JSON.stringify(item.logs)}</span>
+                </p>
+              ))
+            : null}
+        </p>
       </div>
     </div>
   );

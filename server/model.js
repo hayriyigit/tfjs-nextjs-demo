@@ -10,10 +10,9 @@ class Model {
         filters: 8,
         strides: 1,
         activation: "relu",
-        kernelInitializer: "varianceScaling",
+        kernelInitializer: "heUniform",
       })
     );
-    this.model.summary();
   }
 
   addConv(data) {
