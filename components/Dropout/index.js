@@ -1,5 +1,4 @@
 import React from "react";
-import _ from "lodash/fp";
 import { useForm } from "react-hook-form";
 
 export default (props) => {
